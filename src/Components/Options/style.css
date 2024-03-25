@@ -1,9 +1,4 @@
 .options{
-    position: absolute;
-    width: 30%;
     height: 70%;
-    top: 10%;
-    left: 10%;
-    z-index: 2;
     background-color: green;
 }

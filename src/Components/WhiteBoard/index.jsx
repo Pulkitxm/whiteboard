@@ -1,13 +1,31 @@
-import "./style.css";
-
 import Canvas from "../Canvas";
 import Options from "../Options";
+import useWindow from "../../hooks/useWindow";
 
 const WhiteBoard = () => {
+  const { width } = useWindow();
   return (
-    <div className="whiteBoard">
-      <Options />
-      <Canvas />
+    <div className="whiteBoard" style={{
+      width:"100%",
+      height:"100%",
+      display:"flex",
+      flexDirection:width < 700 ? "column" : "row",
+    }}>
+      {
+        width < 700
+          ? (
+            <>
+              <Canvas />
+              <Options />
+            </>
+          )
+          : (
+            <>
+              <Options />
+              <Canvas />
+            </>
+          )
+      }
     </div>
   );
 };
