@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #303030;
+}
+
+.app {
+  width: 100vw;
+  height: 100svh;
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+  grid-template-rows: 10% 90%;
+}
