@@ -1,6 +1,13 @@
 import { atom } from "recoil";
 
-export const drawing = atom({
-    key: "drawing",
-    default: "",
+export const drawings = atom({
+    key: "drawings",
+    default: {
+        data:[],
+        shape:"circle",
+        options:"brush",
+        color:"black",
+        size:10,
+        fill:false
+    }
 });

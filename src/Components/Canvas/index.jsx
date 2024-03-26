@@ -15,7 +15,7 @@ const Canvas = () => {
           transition: "height 0.5s",
         }
       : {
-          width: width > 1000 ? "90%" : expand ? "80%" : "90%",
+          width: width > 1000 ? "95%" : expand ? "80%" : "90%",
           transition: "width 0.5s",
         };
   return (

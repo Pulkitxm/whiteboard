@@ -10,12 +10,12 @@ const Canvas = () => {
     <div
       className="app-bar"
       style={{
-        backgroundColor: darkMode ? "#333" : "#f5f5f5",
+        backgroundColor: darkMode ? "#333" : "rgb(119 119 119)",
         padding: width > 700 ? "0 10%" : "0 20px",
         fontSize: width > 700 ? "1.5em" : "1em",
       }}
     >
-      <p style={{cursor:"text",userSelect:"none"}}>WhiteBoard</p>
+      <p style={{ cursor: "text", userSelect: "none", color: darkMode?"white":"black",margin:0 }}>WhiteBoard</p>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

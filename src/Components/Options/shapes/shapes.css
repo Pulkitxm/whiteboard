@@ -1,0 +1,46 @@
+.options .shapes,
+.options .shapes .opts .opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em 0;
+}
+
+.options .shapes .head {
+  font-size: 1.2em;
+}
+
+.options .shapes .opts .opt {
+  opacity: 0.5;
+  margin: 1em 0;
+  cursor: pointer;
+}
+
+.options .shapes .opts .acitve {
+  opacity: 1;
+}
+
+.options .shapes .opts .opt .rectangle {
+  width: 2em;
+  height: 2em;
+}
+
+.options .shapes .opts .opt .circle {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+}
+
+.form-check {
+  margin-bottom: 1em;
+}
+
+input[type="checkbox"] {
+  transform: scale(2);
+  margin-bottom: .8em;
+}
+
+input[type="checkbox"] ,
+input[type="checkbox"] ~ label {
+  cursor: pointer;
+}
