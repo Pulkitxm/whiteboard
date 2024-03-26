@@ -44,6 +44,7 @@ const Options = () => {
     return () => {
       window.removeEventListener("keydown", shortcut);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changeColor = (color) => {

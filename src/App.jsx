@@ -19,7 +19,7 @@ const App = () => {
     if(darkMode!=null){
       setDarkMode(darkMode);
     }
-  },[]);
+  },[setDarkMode, setDrawings]);
   return (
     <div className="app" style={{
       color: !darkMode?"#000": "#fff"
