@@ -7,7 +7,7 @@ export const drawings = atom({
         shape:"",
         options:"brush",
         color:"#000000",
-        size:10,
+        size:5,
         fill:false
     }
 });

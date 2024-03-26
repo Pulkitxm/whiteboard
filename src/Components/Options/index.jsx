@@ -27,7 +27,7 @@ const Options = () => {
           transition: "height 0.5s",
         }
       : {
-          width: width > 1000 ? "5%" : expand ? "20%" : "10%",
+          width: width > 1000 ? "10%" : expand ? "20%" : "10%",
           height: "100%",
           transition: "width 0.5s",
         };
@@ -59,7 +59,8 @@ const Options = () => {
     if (size === "+1") {
       setDrawings((obj) => {
         let updatedDrawings = obj;
-        const newSize = obj.size + 1 <= 10 ? obj.size + 1 : 10;
+        console.log(obj.size);
+        const newSize = (obj.size + 1) <= 10 ? obj.size + 1 : 10;
         updatedDrawings = { ...obj, size: newSize };
         localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
         return updatedDrawings;
