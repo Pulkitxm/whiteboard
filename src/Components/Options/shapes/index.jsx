@@ -19,7 +19,7 @@ const Shapes = () => {
   const changeShape = (shape) => {
     setDrawings((obj) => {
       let updatedDrawings = obj;
-      updatedDrawings = { ...obj, shape };
+      updatedDrawings = { ...obj, shape:obj.shape === shape ? "" : shape};
       localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
       return updatedDrawings;
     });

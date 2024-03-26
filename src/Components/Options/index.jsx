@@ -7,8 +7,10 @@ import { darkMode as dm } from "../../recoil/darkMode";
 
 import Shapes from "./Shapes";
 import TypeOptions from "./TypeOptions";
+import { drawings as drwng } from "../../recoil/drawing";
 
 const Options = () => {
+  const [drawings, setDrawings] = useRecoilState(drwng);
   const [expand, setExpand] = useRecoilState(exp);
   const { width } = useWindow();
   const [darkMode, setDarkMode] = useRecoilState(dm);
@@ -30,6 +32,15 @@ const Options = () => {
           transition: "width 0.5s",
         };
 
+  const changeColor = (color) => {
+    setDrawings((obj) => {
+      let updatedDrawings = obj;
+      updatedDrawings = { ...obj, color };
+      localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+      return updatedDrawings;
+    });
+  };
+
   return (
     <div
       className="options"
@@ -48,7 +59,14 @@ const Options = () => {
     >
       <Shapes />
       <TypeOptions />
-      <div className="colors"></div>
+      <div className="colors">
+        <input
+          style={{ border: "none", cursor: "pointer" }}
+          type="color"
+          value={drawings.color}
+          onChange={(e) => changeColor(e.target.value)}
+        />
+      </div>
       <div className="actions"></div>
       <div className="form-check form-switch">
         <input

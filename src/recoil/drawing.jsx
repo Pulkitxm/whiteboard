@@ -6,7 +6,7 @@ export const drawings = atom({
         data:[],
         shape:"",
         options:"brush",
-        color:"black",
+        color:"#000000",
         size:10,
         fill:false
     }
