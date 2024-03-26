@@ -2,23 +2,48 @@ import "./shapes.css";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { drawings as drwngs } from "../../../recoil/drawing";
 import { darkMode as dm } from "../../../recoil/darkMode";
+import { useEffect } from "react";
 
 const Shapes = () => {
-    const darkMode = useRecoilValue(dm);
+  const darkMode = useRecoilValue(dm);
   const drawings = useRecoilValue(drwngs);
   const setDrawings = useSetRecoilState(drwngs);
   const changeFill = () => {
-    let updatedDrawings = drawings;
-    updatedDrawings = { ...drawings, fill: !drawings.fill };
-    setDrawings(() => updatedDrawings);
-    localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+    setDrawings((obj) => {
+      let updatedDrawings = obj;
+      updatedDrawings = { ...obj, fill: !obj.fill };
+      localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+      return updatedDrawings;
+    });
   };
   const changeShape = (shape) => {
-    let updatedDrawings = drawings;
-    updatedDrawings = { ...drawings, shape: shape };
-    setDrawings(() => updatedDrawings);
-    localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+    setDrawings((obj) => {
+      let updatedDrawings = obj;
+      updatedDrawings = { ...obj, shape };
+      localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+      return updatedDrawings;
+    });
   };
+  useEffect(() => {
+    const shortcut = (e) => {
+      if (e.key === "r" && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey ) {
+        changeShape("rectangle");
+      } else if (e.key === "c" && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey ) {
+        changeShape("circle");
+      } else if (e.key === "t" && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey ) {
+        changeShape("triangle");
+      } else if (e.key === "f" && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey ) {
+        changeFill();
+      } else if (e.key === "Escape" && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey ) {
+        changeShape("");
+      }
+    };
+    window.addEventListener("keydown", shortcut);
+    return () => {
+      window.removeEventListener("keydown", shortcut);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="shapes">
       <div className="head">Shapes</div>
@@ -121,7 +146,7 @@ const Shapes = () => {
             </svg>
           )}
         </div>
-        <div className="opt" style={{marginTop:"2em"}}>
+        <div className="opt" style={{ marginTop: "2em" }}>
           <input
             className="fill-color"
             type="checkbox"
@@ -129,7 +154,9 @@ const Shapes = () => {
             onChange={() => changeFill()}
             id="fill"
           />
-          <label htmlFor="fill" className="desc">Fill</label>
+          <label htmlFor="fill" className="desc">
+            Fill
+          </label>
         </div>
       </div>
     </div>

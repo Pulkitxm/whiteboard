@@ -4,7 +4,7 @@ export const drawings = atom({
     key: "drawings",
     default: {
         data:[],
-        shape:"circle",
+        shape:"",
         options:"brush",
         color:"black",
         size:10,

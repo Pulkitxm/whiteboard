@@ -5,7 +5,8 @@ import useWindow from "../../hooks/useWindow";
 import { useEffect } from "react";
 import { darkMode as dm } from "../../recoil/darkMode";
 
-import Shapes from "./shapes";
+import Shapes from "./Shapes";
+import TypeOptions from "./TypeOptions";
 
 const Options = () => {
   const [expand, setExpand] = useRecoilState(exp);
@@ -46,7 +47,7 @@ const Options = () => {
       }}
     >
       <Shapes />
-      <div className="options"></div>
+      <TypeOptions />
       <div className="colors"></div>
       <div className="actions"></div>
       <div className="form-check form-switch">
