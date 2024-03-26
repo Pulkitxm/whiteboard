@@ -32,6 +32,20 @@ const Options = () => {
           transition: "width 0.5s",
         };
 
+  useEffect(() => {
+    const shortcut = (e) => {
+      if (e.ctrlKey && e.key === "ArrowUp") {
+        changeSize("+1");
+      } else if (e.ctrlKey && e.key === "ArrowDown") {
+        changeSize("-1");
+      }
+    };
+    window.addEventListener("keydown", shortcut);
+    return () => {
+      window.removeEventListener("keydown", shortcut);
+    };
+  }, []);
+
   const changeColor = (color) => {
     setDrawings((obj) => {
       let updatedDrawings = obj;
@@ -40,7 +54,32 @@ const Options = () => {
       return updatedDrawings;
     });
   };
-
+  const changeSize = (size) => {
+    if (size === "+1") {
+      setDrawings((obj) => {
+        let updatedDrawings = obj;
+        const newSize = obj.size + 1 <= 10 ? obj.size + 1 : 10;
+        updatedDrawings = { ...obj, size: newSize };
+        localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+        return updatedDrawings;
+      });
+    } else if (size === "-1") {
+      setDrawings((obj) => {
+        let updatedDrawings = obj;
+        const newSize = obj.size - 1 >= 0 ? obj.size - 1 : 0;
+        updatedDrawings = { ...obj, size: newSize };
+        localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+        return updatedDrawings;
+      });
+    } else {
+      setDrawings((obj) => {
+        let updatedDrawings = obj;
+        updatedDrawings = { ...obj, size };
+        localStorage.setItem("drawings", JSON.stringify(updatedDrawings));
+        return updatedDrawings;
+      });
+    }
+  };
   return (
     <div
       className="options"
@@ -59,6 +98,20 @@ const Options = () => {
     >
       <Shapes />
       <TypeOptions />
+
+      <div className="size">
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={drawings.size}
+          onChange={(e) => changeSize(e.target.value)}
+          style={{
+            width: "95%"
+          }}
+        />
+      </div>
+
       <div className="colors">
         <input
           style={{ border: "none", cursor: "pointer" }}
@@ -79,7 +132,7 @@ const Options = () => {
             setDarkMode(!darkMode);
             localStorage.setItem("darkMode", !darkMode);
           }}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer"}}
         />
       </div>
     </div>
