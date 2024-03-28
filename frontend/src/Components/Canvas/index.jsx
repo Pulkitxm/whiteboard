@@ -23,7 +23,7 @@ const Canvas = () => {
     if(!points.length || !points[0].fromX || !points[0].fromY) return;
     contextRef.current.moveTo(points[0].fromX, points[0].fromY);
     for (let i = 1; i < points.length; i++) {
-      contextRef.current.strokeWidth = points[i].size;
+      contextRef.current.lineWidth = points[i].size;
       contextRef.current.lineTo(points[i].x, points[i].y);
     }
     contextRef.current.stroke();

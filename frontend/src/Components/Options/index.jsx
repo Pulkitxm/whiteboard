@@ -61,7 +61,6 @@ const Options = () => {
     if (size === "+1") {
       setDrawings((obj) => {
         let updatedDrawings = obj;
-        console.log(obj.size);
         const newSize = obj.size + 1 <= 10 ? obj.size + 1 : 10;
         updatedDrawings = { ...obj, size: newSize };
         localStorage.setItem("drawings", JSON.stringify(updatedDrawings));

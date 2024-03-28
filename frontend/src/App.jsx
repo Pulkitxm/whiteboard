@@ -1,16 +1,21 @@
 import { useEffect } from "react";
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 
-import axios from "axios";
 import AppBar from "./components/AppBar";
 import WhiteBoard from "./components/WhiteBoard";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import SignIn from "./components/signin";
+import SignUp from "./components/signup";
+
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import { drawings } from "./recoil/drawing";
 import { darkMode as dm } from "./recoil/darkMode";
 import { useCookies } from "react-cookie";
+import { userAtom } from "./recoil/user";
 
 const App = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([]);
+  const setUser= useResetRecoilState(userAtom);
+  const [cookies] = useCookies([]);
   const setDrawings = useSetRecoilState(drawings);
   const [darkMode, setDarkMode] = useRecoilState(dm);
   useEffect(() => {
@@ -24,7 +29,13 @@ const App = () => {
     }
   }, [setDarkMode, setDrawings]);
   useEffect(() => {
-    console.log(cookies);
+    if(!cookies.token){
+      setUser({
+        _id: null,
+        username: "",
+        email: "",
+    });
+    }
   }, [cookies]);
   return (
     <div
@@ -34,7 +45,13 @@ const App = () => {
       }}
     >
       <AppBar />
-      <WhiteBoard />
+      <Routes>
+        <Route path={"/"} element={<WhiteBoard />} />
+        <Route path={"/:id"} element={<WhiteBoard />} />
+        <Route path={"/signin"} element={<SignIn />} />
+        <Route path={"/signup"} element={<SignUp />} />
+        <Route path={"*"} element={<WhiteBoard />} />
+      </Routes>
     </div>
   );
 };

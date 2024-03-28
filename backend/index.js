@@ -23,9 +23,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser())
 app.use(authorizeIp);
-app.use("/api/_vi/signin", signinRouter)
-app.use("/api/_vi/signup", signupRouter)
-app.use("/api/_vi/me", userRouter)
+app.use("/api/_v1/signin", signinRouter)
+app.use("/api/_v1/signup", signupRouter)
+app.use("/api/_v1/me", userRouter)
 
 io.on('connection', () => {
     console.log('a user connected');

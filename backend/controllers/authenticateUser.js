@@ -14,13 +14,17 @@ const userSchema = z.object({
     password: z.string().min(3).max(20),
 });
 
+const userSchemaForSignin = z.object({
+    username: z.string().min(3).max(20),
+    password: z.string().min(3).max(20),
+});
+
 const signInUser = async (req, res) => {
 
     try {
-        const validateUser = userSchema.parse(req.body);
+        const validateUser = userSchemaForSignin.parse(req.body);
 
         validateUser.username = validateUser.username.toLowerCase();
-        validateUser.email = validateUser.email.toLowerCase();
 
         const userExist = await User.findOne({ username: validateUser.username });
         if (!userExist) return res.status(400).send({
@@ -32,6 +36,11 @@ const signInUser = async (req, res) => {
                 algorithm,
             });
             pass = unHashPass(pass);
+
+            if(pass !== validateUser.password) return res.status(400).send({
+                message: "Invalid password",
+            });
+            
             const token = jwt.sign({
                 username: userExist.username,
                 password: pass,
@@ -40,10 +49,8 @@ const signInUser = async (req, res) => {
                 maxAge: 60*60*60*24*7,// 1 week
                 httpOnly: false,
             });
-            console.log(token);
             res.send({
                 username: userExist.username,
-                email: userExist.email,
             });
         } catch (err) {
             res.send({
@@ -65,7 +72,7 @@ const signUpUser = async (req, res) => {
 
         const userExist = await User.findOne({ username: validateUser.username });
         if (userExist) return res.status(400).send({
-            message: "User already exists",
+            message: "User does not exists",
         });
 
         const hashedPass = hashPass(validateUser.password);
