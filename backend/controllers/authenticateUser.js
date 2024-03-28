@@ -33,13 +33,18 @@ const signInUser = async (req, res) => {
             });
             pass = unHashPass(pass);
             const token = jwt.sign({
+                username: userExist.username,
                 password: pass,
-            }, JWT_SECRET, { expiresIn: EXPIRES_IN });
+            }, JWT_SECRET);
+
+            res.cookie('token', token, {
+                maxAge: 60*60*60*24*7,// 1 week
+                httpOnly: true,
+            });
 
             res.send({
                 username: userExist.username,
                 email: userExist.email,
-                token
             });
         } catch (err) {
             res.send({
@@ -75,7 +80,11 @@ const signUpUser = async (req, res) => {
             password: encryptedPass,
         });
         await user.save();
-        res.send(user);
+        res.send({
+            username: user.username,
+            email: user.email,
+            message: "User created successfully",
+        });
     } catch (err) {
         res.send({
             message: "Invalid input",
