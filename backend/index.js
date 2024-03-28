@@ -6,6 +6,7 @@ const signinRouter = require('./routes/signin.js');
 const signupRouter = require('./routes/signup.js');
 const userRouter = require('./routes/user.js');
 const cookieParser = require('cookie-parser')
+const cors = require('cors');
 
 require("./config/db.js");
 require("dotenv/config");
@@ -15,6 +16,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser())
 app.use(authorizeIp);
 app.use("/api/_vi/signin",signinRouter)
