@@ -36,12 +36,11 @@ const signInUser = async (req, res) => {
                 username: userExist.username,
                 password: pass,
             }, JWT_SECRET);
-
             res.cookie('token', token, {
                 maxAge: 60*60*60*24*7,// 1 week
-                httpOnly: true,
+                httpOnly: false,
             });
-
+            console.log(token);
             res.send({
                 username: userExist.username,
                 email: userExist.email,
