@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import "dotenv/config";
+const mongoose = require("mongoose");
+
+require("dotenv").config();
 
 try {
     const isDevMode = process.env.NODE_ENV === 'production';

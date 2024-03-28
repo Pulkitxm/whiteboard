@@ -1,20 +1,21 @@
-import express from 'express';
-import { createServer } from 'node:http';
-import { Server } from 'socket.io';
-import "./config/db.js";
-import "dotenv/config";
-import authorizeIp from './middlewares/authorizeIp.js';
+const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const authorizeIp = require('./middlewares/authorizeIp.js');
+const signinRouter = require('./routes/signin.js');
+const signupRouter = require('./routes/signup.js');
+
+require("./config/db.js");
+require("dotenv/config");
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
+app.use(express.json());
 app.use(authorizeIp);
-app.get('/', (req, res) => {
-    res.send({
-        message: 'Hello World',
-    });
-});
+app.use("/api/_vi/signin",signinRouter)
+app.use("/api/_vi/signup",signupRouter)
 
 io.on('connection', () => {
     console.log('a user connected');
