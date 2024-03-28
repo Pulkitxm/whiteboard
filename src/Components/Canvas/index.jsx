@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { drawings as drwng } from "../../recoil/drawing";
 
 const Canvas = () => {
-  // eslint-disable-next-line no-unused-vars
   const [currElementData, setCurrElementData] = useState([]);
   const canvasRef = useRef();
   const contextRef = useRef();
@@ -15,6 +14,20 @@ const Canvas = () => {
   const [drawings, setDrawings] = useRecoilState(drwng);
   const [isDrawing, setIsDrawing] = useState(false);
   const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
+
+  const drawSegment = (segment) => {
+    const { points, color, size } = segment;
+    contextRef.current.strokeStyle = color;
+    contextRef.current.lineWidth = size * 5;
+    contextRef.current.beginPath();
+    if(!points.length || !points[0].fromX || !points[0].fromY) return;
+    contextRef.current.moveTo(points[0].fromX, points[0].fromY);
+    for (let i = 1; i < points.length; i++) {
+      contextRef.current.lineTo(points[i].x, points[i].y);
+    }
+    contextRef.current.stroke();
+    contextRef.current.closePath();
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -26,34 +39,25 @@ const Canvas = () => {
     const context = canvas.getContext("2d");
     context.scale(2, 2);
     context.lineCap = "round";
-    context.strokeStyle = "black";
-    context.lineWidth = 5;
     contextRef.current = context;
   }, []);
+
   useEffect(() => {
     if (contextRef.current) {
       contextRef.current.strokeStyle = drawings.color;
       contextRef.current.lineWidth = drawings.size * 5;
     }
   }, [drawings, canvasRef]);
+
   useEffect(() => {
     const storedDrawings = JSON.parse(localStorage.getItem("drawings"));
     if (storedDrawings && storedDrawings.data) {
       const points = storedDrawings.data;
       points.forEach((segment) => {
-        console.log(segment);
-        contextRef.current.beginPath();
-        contextRef.current.strokeStyle = segment.color;
-        contextRef.current.lineWidth = segment.size * 5;
-        contextRef.current.moveTo(segment.points[0].fromX, segment.points[0].fromY);
-        for (let i = 0; i < segment.points.length; i++) {
-          contextRef.current.lineTo(segment.points[i].x, segment.points[i].y);
-          contextRef.current.stroke();
-        }
-        contextRef.current.closePath();
+        drawSegment(segment);
       });
     }
-  }, [contextRef]);
+  }, []);
 
   const appendLine = (positions) => {
     setCurrElementData((prev) => {
@@ -67,6 +71,7 @@ const Canvas = () => {
       return updated;
     });
   };
+
   const onMouseDown = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
     contextRef.current.beginPath();
@@ -74,6 +79,7 @@ const Canvas = () => {
     setIsDrawing(true);
     setCurrentPosition({ x: offsetX, y: offsetY });
   };
+
   const onMouseUp = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
