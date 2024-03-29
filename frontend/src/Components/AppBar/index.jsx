@@ -1,15 +1,17 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import "./style.css";
 import { darkMode as dm } from "../../recoil/darkMode";
 import useWindow from "../../hooks/useWindow";
-import { userAtom as userState } from "../../recoil/user";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 // import { DarkSun, LighSun } from "./Svgs";
 
 const Canvas = () => {
   const [darkMode] = useRecoilState(dm);
   const { width } = useWindow();
-  const user = useRecoilValue(userState);
+  const obj = useCookies(["token"]);
+  const token = useMemo(() => obj[0].token, [obj]);
   return (
     <div className="flex flex-row">
       <div
@@ -31,14 +33,16 @@ const Canvas = () => {
         >
           <Link to={"/"}>WhiteBoard</Link>
         </p>
-        {user._id && user.email && user.username ? (
+        {token ? (
           <svg
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 cursor-pointer"
             style={{
               width: width > 700 ? "1.5em" : "1em",
             }}

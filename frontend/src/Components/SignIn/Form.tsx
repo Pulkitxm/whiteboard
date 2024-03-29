@@ -22,6 +22,8 @@ const Form = () => {
           withCredentials: true,
         });
         const {email, username} = res?.data;
+        console.log(email, username);
+        
         if (email && username) {
           setUser({ email, username });
         }

@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
 import AppBar from "./components/AppBar";
+import ProfileModal from "./components/ProfileModal";
 import WhiteBoard from "./components/WhiteBoard";
 import SignIn from "./components/signin";
 import SignUp from "./components/signup";
@@ -30,13 +31,14 @@ const App = () => {
   }, [setDarkMode, setDrawings]);
   useEffect(() => {
     if(!cookies.token){
+      console.log("no token");
       setUser({
         _id: null,
         username: "",
         email: "",
     });
     }
-  }, [cookies]);
+  }, [cookies, setUser]);
   return (
     <div
       className="app"
@@ -45,6 +47,7 @@ const App = () => {
       }}
     >
       <AppBar />
+      <ProfileModal />
       <Routes>
         <Route path={"/"} element={<WhiteBoard />} />
         <Route path={"/:id"} element={<WhiteBoard />} />

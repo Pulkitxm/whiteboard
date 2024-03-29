@@ -8,6 +8,6 @@ export const drawings = atom({
         options:"brush",
         color:"#000000",
         size:5,
-        fill:false
+        fill:false,
     }
 });

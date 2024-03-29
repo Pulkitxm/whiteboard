@@ -51,6 +51,7 @@ const signInUser = async (req, res) => {
             });
             res.send({
                 username: userExist.username,
+                email: userExist.email,
             });
         } catch (err) {
             res.send({
